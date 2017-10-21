@@ -1,0 +1,24 @@
+{
+  "authors": [{
+    "name": "Carsten Lorenz",
+    "email": "carsten.lorenz@projectstage.org",
+    "homepage": "http://www.projectstage.org",
+    "role": "Senior lead developer"
+  }],
+  "name": "godaddy-api-wrapper",
+  "description": "Simple GoDaddy API wrapper.",
+  "keywords": ["api", "godaddy"],
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1",
+    "guzzlehttp/guzzle": "^6.3",
+    "phpunit/phpunit": "4.8.*",
+    "phpunit/php-code-coverage": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "GoDaddy\\": "src/",
+      "GoDaddyTests\\": "tests/"
+    }
+  }
+}
