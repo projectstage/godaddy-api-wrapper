@@ -5,7 +5,7 @@
     "homepage": "http://www.projectstage.org",
     "role": "Senior lead developer"
   }],
-  "name": "godaddy-api-wrapper",
+  "name": "projectstage/godaddy-api-wrapper",
   "description": "Simple GoDaddy API wrapper.",
   "keywords": ["api", "godaddy"],
   "license": "MIT",
