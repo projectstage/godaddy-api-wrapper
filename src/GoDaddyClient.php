@@ -126,7 +126,7 @@ class GoDaddyClient
     /**
      * @return string
      */
-    private function getApiSecret(): string
+    public function getApiSecret(): string
     {
         return $this->api_secret;
     }
@@ -162,5 +162,5 @@ class GoDaddyClient
     {
         $this->version = $version;
     }
-    
+
 }
