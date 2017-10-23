@@ -136,7 +136,13 @@ class GoDaddyDomains
      */
     public function addRecord($domain, $params)
     {
-        $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', $this->createRecordParams($params));
+//        var_dump($params);exit;
+        $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', [
+            'headers' => [
+                'Authorization' => $this->goDaddyClient->getAuthorizationKey().' '.$this->goDaddyClient->getApiKey().':'.$this->goDaddyClient->getApiSecret()
+            ],
+            'json' => json_encode([$params])
+        ]);
         $data = json_decode($response->getBody()->getContents());
 
         return $data;
@@ -153,59 +159,4 @@ class GoDaddyDomains
 
     }
 
-    /**
-     * @param $params
-     * @return array|null
-     */
-    private function createRecordParams($params)
-    {
-        if(empty($params) === true) {
-            return null;
-        }
-
-        $return_params = [];
-        $prepare_params = [];
-        if(is_object($params) === true) {
-            $prepare_params[] = $params;
-        } else {
-            $prepare_params = $params;
-        }
-
-        foreach($prepare_params as $key => $value) {
-            $tmp = new \stdClass();
-            switch($key) {
-                case 'type':
-                    $tmp->type = $value;
-                    break;
-                case 'name':
-                    $tmp->name = $value;
-                    break;
-                case 'data':
-                    $tmp->data = $value;
-                    break;
-                case 'priority':
-                    $tmp->priority = $value;
-                    break;
-                case 'ttl':
-                    $tmp->ttl = $value;
-                    break;
-                case 'service':
-                    $tmp->service = $value;
-                    break;
-                case 'protocol':
-                    $tmp->protocol = $value;
-                    break;
-                case 'port':
-                    $tmp->port = $value;
-                    break;
-                case 'weight':
-                    $tmp->weight = $value;
-                    break;
-
-            }
-            $return_params[] = $tmp;
-        }
-
-        return $return_params;
-    }
 }

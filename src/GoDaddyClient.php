@@ -102,7 +102,7 @@ class GoDaddyClient
     public function getSlug($slug_index)
     {
         if(isset($this->slugs[$slug_index]) === true) {
-            return '/'.$this->getVersion().$this->slugs[$slug_index];
+            return $this->getVersion().$this->slugs[$slug_index];
         }
         return null;
     }
