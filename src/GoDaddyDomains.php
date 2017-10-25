@@ -9,6 +9,7 @@
 namespace GoDaddy;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Class GoDaddyDomains
@@ -136,16 +137,33 @@ class GoDaddyDomains
      */
     public function addRecord($domain, $params)
     {
-//        var_dump($params);exit;
-        $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', [
-            'headers' => [
-                'Authorization' => $this->goDaddyClient->getAuthorizationKey().' '.$this->goDaddyClient->getApiKey().':'.$this->goDaddyClient->getApiSecret()
-            ],
-            'json' => json_encode([$params])
-        ]);
-        $data = json_decode($response->getBody()->getContents());
+        var_dump(json_encode([$params]));
 
-        return $data;
+        try {
+            $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', [
+                'headers' => [
+                    'Content-Type: application/json',
+                    'Accept : application/json',
+                    'Authorization' => $this->goDaddyClient->getAuthorizationKey().' '.$this->goDaddyClient->getApiKey().':'.$this->goDaddyClient->getApiSecret()
+                ],
+                'body' => json_encode([$params])
+            ]);
+
+            $data = $response->getBody()->getContents();
+            var_dump($data);
+            return $data;
+
+        }
+        catch (ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            var_dump($responseBodyAsString);
+        }
+
+
+
+
+
 
     }
 
