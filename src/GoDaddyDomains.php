@@ -17,14 +17,6 @@ use GuzzleHttp\Exception\ClientException;
  */
 class GoDaddyDomains
 {
-    CONST DNS_KEY_NS = 'NS';
-    CONST DNS_KEY_A = 'A';
-    CONST DNS_KEY_CNAME = 'CNAME';
-    CONST DNS_KEY_TXT = 'TXT';
-    CONST DNS_KEY_SRV = 'SRV';
-    CONST DNS_KEY_MX = 'MX';
-    CONST DNS_KEY_AAAA = 'AAAA';
-    CONST DNS_KEY_CAA = 'CAA';
 
     /**
      * @var Client|null
@@ -55,12 +47,6 @@ class GoDaddyDomains
         $this->Client = new Client();
         $this->goDaddyClient = $goDaddyClient;
         $this->base_url = $this->goDaddyClient->getApiUrl().'/'.$this->goDaddyClient->getSlug('domains');
-
-        $this->authentication_header = [
-            'headers' => [
-                'Authorization' => $this->goDaddyClient->getAuthorizationKey().' '.$this->goDaddyClient->getApiKey().':'.$this->goDaddyClient->getApiSecret()
-            ]
-        ];
     }
 
     /**
@@ -132,13 +118,11 @@ class GoDaddyDomains
 
     /**
      * @param $domain
-     * @param $params
-     * @return mixed
+     * @param GoDaddyDNSRecordParams $Params
+     * @return string
      */
-    public function addRecord($domain, $params)
+    public function addRecord($domain, GoDaddyDNSRecordParams $Params)
     {
-        var_dump(json_encode([$params]));
-
         try {
             $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', [
                 'headers' => [
@@ -146,25 +130,16 @@ class GoDaddyDomains
                     'Accept : application/json',
                     'Authorization' => $this->goDaddyClient->getAuthorizationKey().' '.$this->goDaddyClient->getApiKey().':'.$this->goDaddyClient->getApiSecret()
                 ],
-                'body' => json_encode([$params])
+                'json' => [$Params->toArray()]
             ]);
 
-            $data = $response->getBody()->getContents();
-            var_dump($data);
-            return $data;
+            return $response->getBody()->getContents();
 
         }
         catch (ClientException $e) {
             $response = $e->getResponse();
-            $responseBodyAsString = $response->getBody()->getContents();
-            var_dump($responseBodyAsString);
+            return $response->getBody()->getContents();
         }
-
-
-
-
-
-
     }
 
     public function deleteRecord()
