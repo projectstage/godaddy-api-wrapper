@@ -8,6 +8,7 @@
 
 namespace GoDaddy;
 
+use GoDaddy\Helper\GoDaddyDNSRecordParams;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 

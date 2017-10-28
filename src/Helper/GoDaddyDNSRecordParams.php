@@ -6,7 +6,7 @@
  * Time: 8:30 PM
  */
 
-namespace GoDaddy;
+namespace GoDaddy\Helper;
 
 /**
  * Helper class for crating DNS records
