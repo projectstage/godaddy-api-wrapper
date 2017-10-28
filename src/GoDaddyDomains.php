@@ -92,6 +92,74 @@ class GoDaddyDomains
     }
 
     /**
+     * Delete a domain
+     * @param string $domain
+     * @return mixed|string
+     */
+    public function deleteDomain(string $domain)
+    {
+        try {
+            $response = $this->Client->delete($this->base_url.'/'.$domain, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
+    }
+
+    /**
+     * Update contact data for a given domain
+     * @param string $domain
+     * @return mixed|string
+     * @TODO: create contact and address classes, use them as parameter for this method
+     * @see https://developer.godaddy.com/doc#!/_v1_domains/updateContacts/DomainContacts
+     */
+    public function updateDomain(string $domain)
+    {
+        try {
+//            $response = $this->Client->patch($this->base_url.'/'.$domain.'/contacts', $this->authentication_header);
+//            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
+    }
+
+    /**
+     * Do not delete the domain but remove privacy from it. Domain will still be active
+     * @param string $domain
+     * @return mixed|string
+     */
+    public function removePrivacyFromDomain(string $domain)
+    {
+        try {
+            $response = $this->Client->delete($this->base_url.'/'.$domain.'/privacy', $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
+    }
+
+    /**
+     * Purchase privacy for a given domain
+     * @param string $domain
+     * @return mixed|string
+     * @TODO: create PrivacyPurchase class
+     * @see https://developer.godaddy.com/doc#!/_v1_domains/purchasePrivacy/PrivacyPurchase
+     */
+    public function purchasePrivacyFromDomain(string $domain)
+    {
+        try {
+//            $response = $this->Client->post($this->base_url.'/'.$domain.'/privacy/purchase', $this->authentication_header);
+//            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
+    }
+
+    /**
      * Array of objects - DNS settings
      * @param string $domain
      * @return mixed
