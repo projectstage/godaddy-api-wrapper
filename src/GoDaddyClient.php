@@ -108,6 +108,19 @@ class GoDaddyClient
     }
 
     /**
+     * @param string $data
+     * @return mixed|string
+     */
+    public function returnData(string $data)
+    {
+        if($this->getResponseType() == 'json') {
+            return $data;
+        } else {
+            return json_decode($data);
+        }
+    }
+
+    /**
      * @return string
      */
     public function getApiUrl(): string

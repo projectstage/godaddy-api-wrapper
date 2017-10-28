@@ -18,6 +18,9 @@ use GuzzleHttp\Exception\ClientException;
 class GoDaddyDomains
 {
 
+    CONST ERROR_CODE_NO_PARAMETER_GIVEN = 2001;
+    CONST ERROR_CODE_NO_INSTANCE_OF = 2002;
+
     /**
      * @var Client|null
      */
@@ -47,108 +50,246 @@ class GoDaddyDomains
         $this->Client = new Client();
         $this->goDaddyClient = $goDaddyClient;
         $this->base_url = $this->goDaddyClient->getApiUrl().'/'.$this->goDaddyClient->getSlug('domains');
+
+        $this->authentication_header = [
+            'headers' => [
+                'Content-Type: application/json',
+                'Accept : application/json',
+                'Authorization' => $this->goDaddyClient->getAuthorizationKey().' '.$this->goDaddyClient->getApiKey().':'.$this->goDaddyClient->getApiSecret()
+            ]
+        ];
     }
 
     /**
      * return array of objects - list of registered domains
-     * @return mixed
+     * @return mixed|string
      */
     public function getDomains()
     {
-        $response = $this->Client->get($this->base_url, $this->authentication_header);
-        $data = json_decode($response->getBody()->getContents());
-
-        return $data;
+        try {
+            $response = $this->Client->get($this->base_url, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
     }
 
     /**
      * Object of domain details
-     * @param $domain
-     * @return mixed
+     * @param string $domain
+     * @return mixed|string
      */
-    public function getDomain($domain)
+    public function getDomain(string $domain)
     {
-        $response = $this->Client->get($this->base_url.'/'.$domain, $this->authentication_header);
-        $data = json_decode($response->getBody()->getContents());
-
-        return $data;
+        try {
+            $response = $this->Client->get($this->base_url.'/'.$domain, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
     }
 
     /**
      * Array of objects - DNS settings
-     * @param $domain
+     * @param string $domain
      * @return mixed
      */
-    public function getDomainDns($domain)
+    public function getDns(string $domain)
     {
-        $response = $this->Client->get($this->base_url.'/'.$domain.'/records', $this->authentication_header);
-        $data = json_decode($response->getBody()->getContents());
-
-        return $data;
+        try {
+            $response = $this->Client->get($this->base_url.'/'.$domain.'/records', $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
     }
 
     /**
      * Array of objects - DNS settings by type - e.g. AAAA|TXT
-     * @param $domain
-     * @param $type
+     * @param string $domain
+     * @param string $type
      * @return mixed
      */
-    public function getDomainDnsByType($domain, $type)
+    public function getDnsByType(string $domain, string $type)
     {
-        $response = $this->Client->get($this->base_url.'/'.$domain.'/records/'.$type, $this->authentication_header);
-        $data = json_decode($response->getBody()->getContents());
-
-        return $data;
+        try {
+            $response = $this->Client->get($this->base_url.'/'.$domain.'/records/'.$type, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
     }
 
     /**
      * Object of a DNS record
-     * @param $domain
-     * @param $type
-     * @param $name
+     * @param string $domain
+     * @param string $type
+     * @param string $name
      * @return mixed
      */
-    public function getDomainDnsByTypeAndName($domain, $type, $name)
+    public function getDnsByTypeAndName(string $domain, string $type, string $name)
     {
-        $response = $this->Client->get($this->base_url.'/'.$domain.'/records/'.$type.'/'.$name, $this->authentication_header);
-        $data = json_decode($response->getBody()->getContents());
-
-        return $data;
+        try {
+            $response = $this->Client->get($this->base_url.'/'.$domain.'/records/'.$type.'/'.$name, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
     }
 
     /**
-     * @param $domain
+     * Add one DNS record given by GoDaddyDNSRecordParams
+     * @param string $domain
      * @param GoDaddyDNSRecordParams $Params
      * @return string
      */
-    public function addRecord($domain, GoDaddyDNSRecordParams $Params)
+    public function addDnsRecord(string $domain, GoDaddyDNSRecordParams $Params)
     {
         try {
-            $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', [
-                'headers' => [
-                    'Content-Type: application/json',
-                    'Accept : application/json',
-                    'Authorization' => $this->goDaddyClient->getAuthorizationKey().' '.$this->goDaddyClient->getApiKey().':'.$this->goDaddyClient->getApiSecret()
-                ],
-                'json' => [$Params->toArray()]
-            ]);
-
-            return $response->getBody()->getContents();
-
-        }
-        catch (ClientException $e) {
+            $this->authentication_header['json'] = [$Params->toArray()];
+            $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
             $response = $e->getResponse();
-            return $response->getBody()->getContents();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
         }
     }
 
-    public function deleteRecord()
+    /**
+     * Add one or more DNS records given by an array of GoDaddyDNSRecordParams
+     * @param string $domain
+     * @param array $params
+     * @return mixed|string
+     */
+    public function addDnsRecords(string $domain, array $params)
     {
+        if(empty($params) === true) {
+            $message = [
+                'error' => [
+                    'message' => 'No parameter given',
+                    'code' => self::ERROR_CODE_NO_PARAMETER_GIVEN
+                ]
+            ];
+            return $this->goDaddyClient->returnData(json_encode($message));
+        }
 
+        try {
+            $parameter = [];
+
+            foreach($params as $Param) {
+                if($Param instanceof GoDaddyDNSRecordParams) {
+                    $parameter[] = $Param->toArray();
+                } else {
+                    $message = [
+                        'error' => [
+                            'message' => 'Param is not an instance of '.GoDaddyDNSRecordParams::class,
+                            'code' => self::ERROR_CODE_NO_INSTANCE_OF
+                        ]
+                    ];
+                    return $this->goDaddyClient->returnData(json_encode($message));
+                }
+            }
+            $this->authentication_header['json'] = $parameter;
+            $response = $this->Client->patch($this->base_url.'/'.$domain.'/records', $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
     }
 
-    public function replaceRecord()
+    /**
+     * Change content of one specified DNS record.
+     * @param string $domain
+     * @param string $type
+     * @param string $name
+     * @param GoDaddyDNSRecordParams $Params
+     * @return mixed|string
+     */
+    public function editDnsRecordByTypeAndName(string $domain, string $type, string $name, GoDaddyDNSRecordParams $Params)
     {
+        try {
+            $this->authentication_header['json'] = [$Params->toArray()];
+            $response = $this->Client->put($this->base_url.'/'.$domain.'/records/'.$type.'/'.$name, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
+    }
+
+    /**
+     * Change content of one record found by given type e.g. GoDaddy\GoDaddyDNSRecordParams::DNS_KEY_TXT
+     * ATTENTION: First all found records will be deleted, in a 2nd step the new records will be set.
+     * Assuming you have 3 TXT records within your DNS settings and you call this function  - in the end
+     * you'll have only this record within your DNS settings
+     * @param string $domain
+     * @param string $type
+     * @param GoDaddyDNSRecordParams $Params
+     * @return mixed|string
+     */
+    public function replaceDnsRecordByType(string $domain, string $type, GoDaddyDNSRecordParams $Params)
+    {
+        try {
+            $this->authentication_header['json'] = [$Params->toArray()];
+            $response = $this->Client->put($this->base_url.'/'.$domain.'/records/'.$type, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
+    }
+
+    /**
+     * Change content of one ore more records found by given type e.g. GoDaddy\GoDaddyDNSRecordParams::DNS_KEY_TXT
+     * ATTENTION: First all found records will be deleted, in a 2nd step the new records will be set.
+     * Assuming you have 3 TXT records within your DNS settings and you call this function  - in the end
+     * you'll have only this record within your DNS settings
+     * @param string $domain
+     * @param string $type
+     * @param array $params array of one ore more GoDaddy\GoDaddyDNSRecordParams
+     * @return mixed|string
+     */
+    public function replaceDnsRecordsByType(string $domain, string $type, array $params)
+    {
+        if(empty($params) === true) {
+            $message = [
+                'error' => [
+                    'message' => 'No parameter given',
+                    'code' => self::ERROR_CODE_NO_PARAMETER_GIVEN
+                ]
+            ];
+            return $this->goDaddyClient->returnData(json_encode($message));
+        }
+
+        try {
+            $parameter = [];
+
+            foreach($params as $Param) {
+                if($Param instanceof GoDaddyDNSRecordParams) {
+                    $parameter[] = $Param->toArray();
+                } else {
+                    $message = [
+                        'error' => [
+                            'message' => 'Param is not an instance of '.GoDaddyDNSRecordParams::class,
+                            'code' => self::ERROR_CODE_NO_INSTANCE_OF
+                        ]
+                    ];
+                    return $this->goDaddyClient->returnData(json_encode($message));
+                }
+            }
+            $this->authentication_header['json'] = $parameter;
+            $response = $this->Client->put($this->base_url.'/'.$domain.'/records/'.$type, $this->authentication_header);
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            return $this->goDaddyClient->returnData($response->getBody()->getContents());
+        }
 
     }
 

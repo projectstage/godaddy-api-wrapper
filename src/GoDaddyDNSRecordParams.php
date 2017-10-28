@@ -32,32 +32,32 @@ class GoDaddyDNSRecordParams
     /**
      * @var string
      */
-    public $name = '';
+    public $name = ' ';
 
     /**
      * @var string
      */
-    public $data = '';
+    public $data = ' ';
 
     /**
      * @var int
      */
-    public $priority = 0;
+    public $priority = 5;
 
     /**
      * @var int
      */
-    public $ttl = 0;
+    public $ttl = 3600;
 
     /**
      * @var string
      */
-    public $service = '';
+    public $service = ' ';
 
     /**
      * @var string
      */
-    public $protocol = '';
+    public $protocol = ' ';
 
     /**
      * @var int
@@ -67,7 +67,7 @@ class GoDaddyDNSRecordParams
     /**
      * @var string
      */
-    public $weight = '';
+    public $weight = ' ';
 
     /**
      * GoDaddyDNSRecordParams constructor.
