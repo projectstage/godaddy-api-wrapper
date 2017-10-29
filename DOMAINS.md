@@ -176,6 +176,7 @@ Sample return value
 ]
 ```
 ## purchasePrivacyFromDomain
+CURRENTLY MISSING DESCRIPTION
 
 ## getDns
 This will retrieve DNS records for a specified domain
@@ -362,8 +363,53 @@ Sample return value
 ]
 ```
 ## replaceDnsRecordByType
-## replaceDnsRecordsByType
+Replace all DNS records by given type(e.g CNAME), domain and single DNS params object. According to this sample
+all CNAME records will be removed and another one will be added.
+```php
 
+$DNSParams5 = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams5->setName('mysubdomain5');
+$DNSParams5->setData('@');
+
+$response = $GoDaddy->connectDomains()->replaceDnsRecordByType(
+    'my-domain.com',
+    \GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME,
+    $DNSParams5
+);
+```
+Sample return value
+```json
+[
+  {}
+]
+```
+## replaceDnsRecordsByType
+Replace all DNS records by given type(e.g CNAME) and domain. All CNAME records will be removed and replaced by
+given array of GoDaddyDNSRecordParams objects
+```php
+
+$DNSParams6 = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams6->setName('mysubdomain6');
+$DNSParams6->setData('@');
+
+$DNSParams7 = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams7->setName('mysubdomain7');
+$DNSParams7->setData('@');
+
+$params = [$DNSParams6, $DNSParams7];
+
+$response = $GoDaddy->connectDomains()->replaceDnsRecordsByType(
+    'my-domain.com',
+    \GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME,
+    $params
+);
+```
+Sample return value
+```json
+[
+  {}
+]
+```
 ## Errors
 
 Sample error return value

@@ -21,6 +21,7 @@ class GoDaddyDomains
 
     CONST ERROR_CODE_NO_PARAMETER_GIVEN = 2001;
     CONST ERROR_CODE_NO_INSTANCE_OF = 2002;
+    CONST ERROR_TYPES_NOT_EQUAL = 2003;
 
     /**
      * @var Client|null
@@ -304,6 +305,16 @@ class GoDaddyDomains
      */
     public function replaceDnsRecordByType(string $domain, string $type, GoDaddyDNSRecordParams $Params)
     {
+        if($type !== $Params->getType()) {
+            $message = [
+                'error' => [
+                    'message' => 'Type "'.$type.'" has to be equals to GoDaddyDNSRecordParams type "'.$Params->getType().'"',
+                    'code' => self::ERROR_TYPES_NOT_EQUAL
+                ]
+            ];
+            return $this->goDaddyClient->returnData(json_encode($message));
+        }
+
         try {
             $this->authentication_header['json'] = [$Params->toArray()];
             $response = $this->Client->put($this->base_url.'/'.$domain.'/records/'.$type, $this->authentication_header);
@@ -336,22 +347,37 @@ class GoDaddyDomains
             return $this->goDaddyClient->returnData(json_encode($message));
         }
 
+        // check if object is instance of GoDaddyDNSRecordParams
+        // check if $type and  $Param->getType() are the same
+        foreach($params as $Param) {
+            if(!$Param instanceof GoDaddyDNSRecordParams) {
+                $message = [
+                    'error' => [
+                        'message' => 'Param is not an instance of '.GoDaddyDNSRecordParams::class,
+                        'code' => self::ERROR_CODE_NO_INSTANCE_OF
+                    ]
+                ];
+                return $this->goDaddyClient->returnData(json_encode($message));
+            }
+
+            if($type !== $Param->getType()) {
+                $message = [
+                    'error' => [
+                        'message' => 'Type "'.$type.'" has to be equals to GoDaddyDNSRecordParams type "'.$Params->getType().'"',
+                        'code' => self::ERROR_TYPES_NOT_EQUAL
+                    ]
+                ];
+                return $this->goDaddyClient->returnData(json_encode($message));
+            }
+        }
+
         try {
             $parameter = [];
 
             foreach($params as $Param) {
-                if($Param instanceof GoDaddyDNSRecordParams) {
-                    $parameter[] = $Param->toArray();
-                } else {
-                    $message = [
-                        'error' => [
-                            'message' => 'Param is not an instance of '.GoDaddyDNSRecordParams::class,
-                            'code' => self::ERROR_CODE_NO_INSTANCE_OF
-                        ]
-                    ];
-                    return $this->goDaddyClient->returnData(json_encode($message));
-                }
+                $parameter[] = $Param->toArray();
             }
+
             $this->authentication_header['json'] = $parameter;
             $response = $this->Client->put($this->base_url.'/'.$domain.'/records/'.$type, $this->authentication_header);
             return $this->goDaddyClient->returnData($response->getBody()->getContents());

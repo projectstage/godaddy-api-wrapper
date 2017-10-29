@@ -108,25 +108,49 @@ class GoDaddyDNSRecordParams
                 $params->ttl = $this->getTtl();
                 break;
             case self::DNS_KEY_A:
-
+                $params->type = $this->getType();
+                $params->name = $this->getName();
+                $params->data = $this->getData();
+                $params->ttl = $this->getTtl();
                 break;
             case self::DNS_KEY_AAAA:
-
-                break;
+                $params->type = $this->getType();
+                $params->name = $this->getName();
+                $params->data = $this->getData();
+                $params->ttl = $this->getTtl();
+               break;
             case self::DNS_KEY_CAA:
-
+                // TODO: figure out what exactly needs to be done here
                 break;
             case self::DNS_KEY_CNAME:
-
+                $params->type = $this->getType();
+                $params->name = $this->getName();
+                $params->data = $this->getData();
+                $params->ttl = $this->getTtl();
                 break;
             case self::DNS_KEY_MX:
-
+                $params->type = $this->getType();
+                $params->name = $this->getName();
+                $params->data = $this->getData();
+                $params->ttl = $this->getTtl();
+                $params->priority = $this->getPriority();
                 break;
             case self::DNS_KEY_NS:
-
+                $params->type = $this->getType();
+                $params->name = $this->getName();
+                $params->data = $this->getData();
+                $params->ttl = $this->getTtl();
                 break;
             case self::DNS_KEY_SRV:
-
+                $params->type = $this->getType();
+                $params->name = $this->getName();
+                $params->data = $this->getData();
+                $params->service = $this->getService();
+                $params->port = $this->getPort();
+                $params->protocol = $this->getProtocol();
+                $params->priority = $this->getPriority();
+                $params->weight = $this->getWeight();
+                $params->ttl = $this->getTtl();
                 break;
         }
         return $params;
