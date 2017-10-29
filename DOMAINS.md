@@ -339,7 +339,7 @@ Sample return value
 ]
 ```
 ## editDnsRecordByTypeAndName
-This will change a DNS record by given type(e.g. CNAME), name(e.g. mysubdomain3) and domain
+This will change a DNS record by given type(e.g. CNAME), name(e.g. mysubdomain3) and domain.
 Usually you shouldn't have 2 DNS entries with the same combination of type and name.
 However - if you have: Both will be deleted and the "new" one will be added
 ```php
