@@ -15,8 +15,9 @@ $GoDaddyClient = new \GoDaddy\GoDaddyClient('GODADDY_KEY', 'GODADDY_SECRET');
 $Domains = $GoDaddyClient->connectDomains();
 ```
 
-* [getDomains](#getDomains)
-* [getDomain](#getDomain)
+* [getDomains](#getdomains)
+* [getDomain](#getdomain)
+* [deleteDomain](#deletedomain)
 
 
 ## getDomains
@@ -149,4 +150,9 @@ Sample return value
     }
   }
 }
+```
+## deleteDomain
+This will delete a specified domain
+```php
+$domain = $Domains->deleteDomain('my-domain.com');
 ```
