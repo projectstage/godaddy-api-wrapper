@@ -4,20 +4,15 @@
 
 ## Initialize Client and connect to doamins
 ```php
-
 require_once __DIR__.'/vendor/autoload.php';
 
 $GoDaddyClient = new \GoDaddy\GoDaddyClient('GODADDY_KEY', 'GODADDY_SECRET');
 
-// assuming you want to handle things around your domains
-// like e.g. DNS settings, purchasing Domains etc.
-// see at https://developer.godaddy.com/doc#!/_v1_domains
 $Domains = $GoDaddyClient->connectDomains();
 ```
 
 * [getDomains](#getdomains)
 * [getDomain](#getdomain)
-* [deleteDomain](#deletedomain)
 * [deleteDomain](#deletedomain)
 * [removePrivacyFromDomain](#removeprivacyfromdomain)
 * [purchasePrivacyFromDomain](#purchaseprivacyfromdomain)
@@ -29,13 +24,6 @@ $Domains = $GoDaddyClient->connectDomains();
 * [editDnsRecordByTypeAndName](#editdnsrecordbytypeandname)
 * [replaceDnsRecordByType](#replacednsrecordbytype)
 * [replaceDnsRecordsByType](#replacednsrecordsbytype)
-
-
-
-
-
-
-
 
 
 ## getDomains
@@ -176,7 +164,6 @@ $domain = $Domains->deleteDomain('my-domain.com');
 ```
 
 
-## deleteDomain
 ## removePrivacyFromDomain
 ## purchasePrivacyFromDomain
 
@@ -262,7 +249,6 @@ Sample return value
 This will retrieve DNS records for a specified domain and type
 ```php
 $dns_records = $Domains->getDnsByType('my-domain.com', \GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_MX);
-
 ```
 Sample return value
 ```json
@@ -288,7 +274,6 @@ Sample return value
 This will retrieve DNS records for a specified domain, type and name
 ```php
 $dns_records = $Domains->getDnsByTypeAndName('my-domain.com', \GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME, 'www');
-
 ```
 Sample return value
 ```json
@@ -303,9 +288,65 @@ Sample return value
 ```
 
 ## addDnsRecord
+This will add a single record to DNS settings of the given domain
+```php
+$DNSParams = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams->setName('mysubdomain');
+$DNSParams->setData('@');
+
+$response = $GoDaddy->connectDomains()->addDnsRecord('my-domain.com', $DNSParams);
+```
+Sample return value
+```json
+[
+  {}
+]
+```
+
 ## addDnsRecords
+This will add more than one record to DNS settings of the given domain
+```php
+$DNSParams1 = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams1->setName('mysubdomain1');
+$DNSParams1->setData('@');
+
+$DNSParams2 = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams2->setName('mysubdomain2');
+$DNSParams2->setData('@');
+
+$DNSParams3 = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams3->setName('mysubdomain3');
+$DNSParams3->setData('@');
+
+$params = [$DNSParams1, $DNSParams2, $DNSParams3];
+
+$response = $GoDaddy->connectDomains()->addDnsRecords('my-domain.com', $params);
+```
+Sample return value
+```json
+[
+  {}
+]
+```
 ## editDnsRecordByTypeAndName
 ## replaceDnsRecordByType
 ## replaceDnsRecordsByType
+
+## Errors
+
+Sample error return value
+```json
+{
+  "code": "INVALID_BODY",
+  "message": "Request body doesn't fulfill schema, see details in `fields`",
+  "fields": [
+    {
+      "message": "is not an object",
+      "path": "records[0]",
+      "code": "UNEXPECTED_TYPE"
+    }
+  ]
+}
+```
 
 
