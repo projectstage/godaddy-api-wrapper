@@ -18,6 +18,24 @@ $Domains = $GoDaddyClient->connectDomains();
 * [getDomains](#getdomains)
 * [getDomain](#getdomain)
 * [deleteDomain](#deletedomain)
+* [deleteDomain](#deletedomain)
+* [removePrivacyFromDomain](#removeprivacyfromdomain)
+* [purchasePrivacyFromDomain](#purchaseprivacyfromdomain)
+* [getDns](#getdns)
+* [getDnsByType](#getdnsbytype)
+* [getDnsByTypeAndName](#getdnsbytypeandname)
+* [addDnsRecord](#adddnsrecord)
+* [addDnsRecords](#adddnsrecords)
+* [editDnsRecordByTypeAndName](#editdnsrecordbytypeandname)
+* [replaceDnsRecordByType](#replacednsrecordbytype)
+* [replaceDnsRecordsByType](#replacednsrecordsbytype)
+
+
+
+
+
+
+
 
 
 ## getDomains
@@ -156,3 +174,138 @@ This will delete a specified domain
 ```php
 $domain = $Domains->deleteDomain('my-domain.com');
 ```
+
+
+## deleteDomain
+## removePrivacyFromDomain
+## purchasePrivacyFromDomain
+
+## getDns
+This will retrieve DNS records for a specified domain
+```php
+$dns_records = $Domains->getDns('my-domain.com');
+```
+Sample return value
+```json
+[
+  {
+    "type": "A",
+    "name": "@",
+    "data": "233.123.56.12",
+    "ttl": 600
+  },
+  {
+    "type": "CNAME",
+    "name": "email",
+    "data": "email.secureserver.net",
+    "ttl": 3600
+  },
+  {
+    "type": "CNAME",
+    "name": "ftp",
+    "data": "@",
+    "ttl": 3600
+  },
+  {
+    "type": "CNAME",
+    "name": "www",
+    "data": "@",
+    "ttl": 3600
+  },
+  {
+    "type": "CNAME",
+    "name": "_domainconnect",
+    "data": "_domainconnect.gd.domaincontrol.com",
+    "ttl": 3600
+  },
+  {
+    "type": "MX",
+    "name": "@",
+    "data": "mailstore1.secureserver.net",
+    "priority": 10,
+    "ttl": 3600
+  },
+  {
+    "type": "MX",
+    "name": "@",
+    "data": "smtp.secureserver.net",
+    "priority": 0,
+    "ttl": 3600
+  },
+  {
+    "type": "SRV",
+    "name": "@",
+    "data": "autodiscover.int.secureserver.net",
+    "service": "_autodiscover",
+    "protocol": "_tcp",
+    "port": 443,
+    "weight": 0,
+    "priority": 0,
+    "ttl": 3600
+  },
+  {
+    "type": "NS",
+    "name": "@",
+    "data": "ns73.domaincontrol.com",
+    "ttl": 3600
+  },
+  {
+    "type": "NS",
+    "name": "@",
+    "data": "ns74.domaincontrol.com",
+    "ttl": 3600
+  }
+]
+```
+
+## getDnsByType
+This will retrieve DNS records for a specified domain and type
+```php
+$dns_records = $Domains->getDnsByType('my-domain.com', \GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_MX);
+
+```
+Sample return value
+```json
+[
+  {
+    "type": "MX",
+    "name": "@",
+    "data": "mailstore1.secureserver.net",
+    "priority": 10,
+    "ttl": 3600
+  },
+  {
+    "type": "MX",
+    "name": "@",
+    "data": "smtp.secureserver.net",
+    "priority": 0,
+    "ttl": 3600
+  }
+]
+```
+
+## getDnsByTypeAndName
+This will retrieve DNS records for a specified domain, type and name
+```php
+$dns_records = $Domains->getDnsByTypeAndName('my-domain.com', \GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME, 'www');
+
+```
+Sample return value
+```json
+[
+  {
+    "type": "CNAME",
+    "name": "www",
+    "data": "@",
+    "ttl": 3600
+  }
+]
+```
+
+## addDnsRecord
+## addDnsRecords
+## editDnsRecordByTypeAndName
+## replaceDnsRecordByType
+## replaceDnsRecordsByType
+
+
