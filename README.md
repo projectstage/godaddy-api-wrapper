@@ -1,4 +1,10 @@
-# godaddy-api-wrapper
+# PHP - GoDaddy API wrapper
+Simple to use Guzzle based API wrapper to manage your GoDaddy domains
+
+## Requirements
+* If not done you need to create your GoDaddy account
+* Please read first more general details about how to use the GoDaddy API [here](https://developer.godaddy.com/getstarted)
+* Once you have an account at GoDaddy you need to create your API key/secret pairs [here](https://developer.godaddy.com/keys/)
 
 ## Install
 
@@ -16,7 +22,8 @@ require_once __DIR__.'/vendor/autoload.php';
 
 $GoDaddyClient = new \GoDaddy\GoDaddyClient('GODADDY_KEY', 'GODADDY_SECRET');
 
-// assuming you want to handle things around your domains like e.g. DNS settings, purchasing Domains etc.
+// assuming you want to handle things around your domains
+// like e.g. DNS settings, purchasing Domains etc.
 // see at https://developer.godaddy.com/doc#!/_v1_domains
 $Domains = $GoDaddy->connectDomains();
 
