@@ -2,9 +2,10 @@
 Simple to use Guzzle based API wrapper to manage your GoDaddy domains
 
 ## Requirements
-* If not done you need to create your GoDaddy account
+* If not done you need to create your [GoDaddy](https://www.godaddy.com) account
 * Please read first more general details about how to use the GoDaddy API [here](https://developer.godaddy.com/getstarted)
 * Once you have an account at GoDaddy you need to create your API key/secret pairs [here](https://developer.godaddy.com/keys/)
+* PHP version running on your system >= 7.1
 
 ## Install
 
