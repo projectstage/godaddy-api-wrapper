@@ -22,13 +22,15 @@ $Domains = $GoDaddyClient->connectDomains();
 ## getDomains
 This will retrieve all your domains including additional information
 ```php
-// get a list of all your GoDaddy domains
 $domain_list = $Domains->getDomains();
+```
+Sample return value
+```json
+{"domainId":250930078,"domain":"my-domain.com","status":"ACTIVE","expires":"2018-08-24T05:18:52Z","expirationProtected":false,"holdRegistrar":false,"locked":true,"privacy":true,"renewAuto":true,"renewable":true,"renewDeadline":"2018-10-08T03:18:51Z","transferProtected":false,"createdAt":"2017-08-24T05:18:52Z"}
 ```
 
 ## getDomain
 This will retrieve information about a specified domain
 ```php
-// get a list of all your GoDaddy domains
 $domain = $Domains->getDomain('my-domain.com');
 ```
