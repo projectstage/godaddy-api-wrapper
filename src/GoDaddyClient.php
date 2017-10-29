@@ -81,7 +81,7 @@ class GoDaddyClient
      * GoDaddyClient constructor.
      * @param $key
      * @param $secret
-     * @param string $response_type
+     * @param string $response_type json|array
      */
     public function __construct($key, $secret, $response_type = 'json')
     {
@@ -90,12 +90,16 @@ class GoDaddyClient
         $this->response_type = $response_type;
     }
 
+    /**
+     * returns instance of domains
+     * @return GoDaddyDomains
+     */
     public function connectDomains()
     {
         return new GoDaddyDomains($this);
     }
 
-        /**
+    /**
      * @param $slug_index
      * @return bool|null
      */
@@ -116,7 +120,7 @@ class GoDaddyClient
         if($this->getResponseType() == 'json') {
             return $data;
         } else {
-            return json_decode($data);
+            return json_decode($data, true);
         }
     }
 
