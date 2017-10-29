@@ -66,7 +66,7 @@ Sample return value
 ```json
 
 {
-  "domainId":250925760,
+  "domainId":12345,
   "domain":"my-domain.com",
   "status":"ACTIVE",
   "expires":"2019-08-24T08:22:05Z",
