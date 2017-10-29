@@ -36,7 +36,7 @@ $domain_list = $Domains->getDomains();
 [Domains](DOMAINS.md)
 
 ## Test Report
-You'll find the PHPUnit test reports [here](./doc/report/index.html) 
+You'll find the PHPUnit test reports [here](https://projectstage.github.io/godaddy-api-wrapper/doc/report/index.html) 
 
 ## License
 
