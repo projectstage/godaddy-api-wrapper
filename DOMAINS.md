@@ -26,7 +26,35 @@ $domain_list = $Domains->getDomains();
 ```
 Sample return value
 ```json
-{"domainId":250930078,"domain":"my-domain.com","status":"ACTIVE","expires":"2018-08-24T05:18:52Z","expirationProtected":false,"holdRegistrar":false,"locked":true,"privacy":true,"renewAuto":true,"renewable":true,"renewDeadline":"2018-10-08T03:18:51Z","transferProtected":false,"createdAt":"2017-08-24T05:18:52Z"}
+[{
+    "domainId":12345,
+    "domain":"my-domain.com",
+    "status":"ACTIVE",
+    "expires":"2019-08-24T05:18:52Z",
+    "expirationProtected":false,
+    "holdRegistrar":false,
+    "locked":true,
+    "privacy":true,
+    "renewAuto":true,
+    "renewable":true,
+    "renewDeadline":"2019-10-08T03:18:51Z",
+    "transferProtected":false,
+    "createdAt":"2015-08-24T05:18:52Z"
+},{
+    "domainId":1234567,
+    "domain":"my-domain1.com",
+    "status":"ACTIVE",
+    "expires":"2019-08-24T05:18:52Z",
+    "expirationProtected":false,
+    "holdRegistrar":false,
+    "locked":true,
+    "privacy":true,
+    "renewAuto":true,
+    "renewable":true,
+    "renewDeadline":"2019-10-08T03:18:51Z",
+    "transferProtected":false,
+    "createdAt":"2015-08-24T05:18:52Z"
+}]
 ```
 
 ## getDomain
