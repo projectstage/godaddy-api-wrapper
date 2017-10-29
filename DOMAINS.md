@@ -165,6 +165,16 @@ $domain = $Domains->deleteDomain('my-domain.com');
 
 
 ## removePrivacyFromDomain
+This will remove privacy status from given domain
+```php
+$response = $GoDaddy->connectDomains()->removePrivacyFromDomain('my-domain.com');
+```
+Sample return value
+```json
+[
+  {}
+]
+```
 ## purchasePrivacyFromDomain
 
 ## getDns
@@ -329,6 +339,28 @@ Sample return value
 ]
 ```
 ## editDnsRecordByTypeAndName
+This will change a DNS record by given type(e.g. CNAME), name(e.g. @) and domain
+Usually you shouldn't have 2 DNS entries with the same combination of type and name.
+However - if you have: Both will be deleted and the "new" one will be added
+```php
+
+$DNSParams4 = new \GoDaddy\Helper\GoDaddyDNSRecordParams(\GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME);
+$DNSParams4->setName('mysubdomain4');
+$DNSParams4->setData('@');
+
+$response = $GoDaddy->connectDomains()->editDnsRecordByTypeAndName(
+    'my-domain.com',
+    \GoDaddy\Helper\GoDaddyDNSRecordParams::DNS_KEY_CNAME,
+    'mysubdomain3',
+    $DNSParams4
+);
+```
+Sample return value
+```json
+[
+  {}
+]
+```
 ## replaceDnsRecordByType
 ## replaceDnsRecordsByType
 
