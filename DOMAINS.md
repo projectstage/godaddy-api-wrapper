@@ -12,7 +12,7 @@ $GoDaddyClient = new \GoDaddy\GoDaddyClient('GODADDY_KEY', 'GODADDY_SECRET');
 // assuming you want to handle things around your domains
 // like e.g. DNS settings, purchasing Domains etc.
 // see at https://developer.godaddy.com/doc#!/_v1_domains
-$Domains = $GoDaddy->connectDomains();
+$Domains = $GoDaddyClient->connectDomains();
 ```
 
 * [getDomains](#getDomains)
