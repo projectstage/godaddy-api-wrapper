@@ -363,7 +363,7 @@ class GoDaddyDomains
             if($type !== $Param->getType()) {
                 $message = [
                     'error' => [
-                        'message' => 'Type "'.$type.'" has to be equals to GoDaddyDNSRecordParams type "'.$Params->getType().'"',
+                        'message' => 'Type "'.$type.'" has to be equals to GoDaddyDNSRecordParams type "'.$Param->getType().'"',
                         'code' => self::ERROR_TYPES_NOT_EQUAL
                     ]
                 ];
