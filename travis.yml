@@ -2,6 +2,7 @@ language: php
 php:
   # aliased to a recent 7.x version
   - 7.1
+  - hhvm
 
 script:
     - vendor/bin/phpunit
