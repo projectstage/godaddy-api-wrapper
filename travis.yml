@@ -1,8 +1,9 @@
 language: php
 php:
-  # aliased to a recent 7.x version
   - 7.1
-  - hhvm
+
+install:
+  - composer install --no-interaction
 
 script:
     - vendor/bin/phpunit
