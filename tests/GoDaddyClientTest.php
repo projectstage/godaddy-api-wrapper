@@ -2,8 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: carsten
+<<<<<<< Updated upstream
  * Date: 11/1/17
  * Time: 9:53 PM
+=======
+ * Date: 10/24/17
+ * Time: 5:45 PM
+>>>>>>> Stashed changes
  */
 
 use GoDaddy\GoDaddyClient;
