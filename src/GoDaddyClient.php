@@ -133,6 +133,21 @@ class GoDaddyClient
     }
 
     /**
+     * Set API URL. Useful for OTE test URL.
+     *
+     * @param string $url
+     * @throws \InvalidArgumentException
+     */
+    public function setApiUrl(string $url)
+    {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('Invalid URL: ' . $url);
+        };
+
+        $this->api_url = $url;
+    }
+
+    /**
      * @return string
      */
     public function getApiKey(): string
